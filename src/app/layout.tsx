@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Painel Maria · Syllos",
+  title: "Painel Maria Padilha · Syllos",
   description: "Painel interno para CPF/CNPJ Sicredi e storage do syllos_2021_backend",
 };
 

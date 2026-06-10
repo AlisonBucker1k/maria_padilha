@@ -22,7 +22,7 @@ export default async function Home() {
   }
 
   return (
-    <div className="min-h-full bg-slate-100">
+    <div className="min-h-full bg-slate-950">
       <AppNav />
       <CpfCnpjPanel
         registrosIniciais={registros}

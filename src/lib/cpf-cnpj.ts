@@ -1,4 +1,10 @@
+import { listarMotivosPendentesPorDocumento } from "./cpf-cnpj-motivos";
 import { fetchJson, normalizeApiBaseUrl } from "./http";
+
+export type MotivoPendencia = {
+  motivo: string;
+  quantidade: number;
+};
 
 export type CpfCnpjResumo = {
   cpf_cnpj: string;
@@ -7,6 +13,7 @@ export type CpfCnpjResumo = {
   pastas: number;
   migrados: number;
   pendentes: number;
+  motivos_pendentes: MotivoPendencia[];
 };
 
 type ApiResponse = {
@@ -69,8 +76,36 @@ export async function listarCpfCnpjUnicos(
     );
   }
 
+  const motivosPorDocumento = await carregarMotivosPendentes(busca).catch(
+    () => new Map<string, MotivoPendencia[]>(),
+  );
+
+  const registros = json.data.registros.map((registro) => {
+    const motivos = motivosPorDocumento.get(registro.cpf_cnpj);
+
+    return {
+      ...registro,
+      motivos_pendentes:
+        motivos ??
+        (registro.pendentes > 0
+          ? [
+              {
+                motivo: "Aguardando migração ao GED",
+                quantidade: registro.pendentes,
+              },
+            ]
+          : []),
+    };
+  });
+
   return {
     total: json.data.total,
-    registros: json.data.registros,
+    registros,
   };
+}
+
+async function carregarMotivosPendentes(
+  busca?: string,
+): Promise<Map<string, MotivoPendencia[]>> {
+  return listarMotivosPendentesPorDocumento(busca);
 }

@@ -60,7 +60,7 @@ export default async function StoragePage({
   }
 
   return (
-    <div className="min-h-full bg-slate-100">
+    <div className="min-h-full bg-slate-950">
       <AppNav />
       <StoragePanel
         discosIniciais={discos}
