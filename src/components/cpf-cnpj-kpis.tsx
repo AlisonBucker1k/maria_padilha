@@ -15,9 +15,9 @@ type Kpi = {
 };
 
 const tons: Record<Kpi["tom"], { icon: string; valor: string }> = {
-  neutro: { icon: "bg-blue-50 text-blue-700", valor: "text-slate-900" },
-  ambar: { icon: "bg-amber-50 text-amber-700", valor: "text-amber-700" },
-  verde: { icon: "bg-emerald-50 text-emerald-700", valor: "text-emerald-700" },
+  neutro: { icon: "bg-slate-800 text-emerald-400", valor: "text-slate-50" },
+  ambar: { icon: "bg-amber-950/60 text-amber-400", valor: "text-amber-300" },
+  verde: { icon: "bg-emerald-950/60 text-emerald-400", valor: "text-emerald-300" },
 };
 
 type Props = {
@@ -43,7 +43,7 @@ export function CpfCnpjKpis({ total, arquivos, pendentes, concluidos }: Props) {
         return (
           <article
             key={card.label}
-            className="flex items-center gap-4 rounded-xl border border-slate-200 bg-white p-4 shadow-sm"
+            className="flex items-center gap-4 rounded-xl border border-slate-800 bg-slate-900 p-4 shadow-sm"
           >
             <span
               className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-lg ${tom.icon}`}
@@ -51,7 +51,7 @@ export function CpfCnpjKpis({ total, arquivos, pendentes, concluidos }: Props) {
               <card.Icon width={22} height={22} />
             </span>
             <div className="min-w-0">
-              <p className="truncate text-sm text-slate-500">{card.label}</p>
+              <p className="truncate text-sm text-slate-400">{card.label}</p>
               <p className={`mt-0.5 text-2xl font-semibold ${tom.valor}`}>
                 {card.valor.toLocaleString("pt-BR")}
               </p>

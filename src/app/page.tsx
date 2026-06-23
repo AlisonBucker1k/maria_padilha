@@ -1,5 +1,6 @@
 import { AppNav } from "@/components/app-nav";
 import { CpfCnpjPanel } from "@/components/cpf-cnpj-panel";
+import { MigracaoAgenciasPanel } from "@/components/migracao-agencias-panel";
 import { listarCpfCnpjUnicos } from "@/lib/cpf-cnpj";
 
 export const dynamic = "force-dynamic";
@@ -22,13 +23,14 @@ export default async function Home() {
   }
 
   return (
-    <div className="min-h-full bg-slate-100">
+    <div className="min-h-full bg-slate-950">
       <AppNav />
       <CpfCnpjPanel
         registrosIniciais={registros}
         totalInicial={total}
         erroInicial={erro}
       />
+      <MigracaoAgenciasPanel />
     </div>
   );
 }

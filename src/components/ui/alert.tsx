@@ -15,14 +15,14 @@ const estilos: Record<
   { container: string; icon: string; close: string }
 > = {
   success: {
-    container: "border-emerald-200 bg-emerald-50 text-emerald-900",
-    icon: "text-emerald-600",
-    close: "text-emerald-700 hover:bg-emerald-100",
+    container: "border-emerald-800/60 bg-emerald-950/50 text-emerald-200",
+    icon: "text-emerald-400",
+    close: "text-emerald-300 hover:bg-emerald-900/60",
   },
   error: {
-    container: "border-red-200 bg-red-50 text-red-800",
-    icon: "text-red-600",
-    close: "text-red-700 hover:bg-red-100",
+    container: "border-red-800/60 bg-red-950/50 text-red-200",
+    icon: "text-red-400",
+    close: "text-red-300 hover:bg-red-900/60",
   },
 };
 

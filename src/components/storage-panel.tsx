@@ -253,24 +253,24 @@ export function StoragePanel({
 
   return (
     <div className="mx-auto flex w-full max-w-7xl flex-col gap-6 px-4 py-8 sm:px-6 lg:px-8">
-      <header className="border-b border-slate-200 pb-6">
-        <p className="text-sm font-medium uppercase tracking-wide text-sky-700">
+      <header className="border-b border-slate-800 pb-6">
+        <p className="text-sm font-medium uppercase tracking-wide text-emerald-400">
           syllos_2021_backend
         </p>
-        <h1 className="mt-1 text-3xl font-semibold text-slate-900">
+        <h1 className="mt-1 text-3xl font-semibold text-slate-50">
           Explorador de Storage
         </h1>
-        <p className="mt-2 max-w-3xl text-sm text-slate-600">
+        <p className="mt-2 max-w-3xl text-sm text-slate-400">
           Navegue pelos discos configurados em{" "}
-          <code className="rounded bg-slate-100 px-1.5 py-0.5 text-xs">
+          <code className="rounded bg-slate-800 px-1.5 py-0.5 text-xs text-slate-300">
             config/filesystems.php
           </code>
           , incluindo <strong>user_files</strong>, digitalização e S3.
         </p>
       </header>
 
-      <section className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
-        <label htmlFor="disco" className="text-sm font-medium text-slate-700">
+      <section className="rounded-xl border border-slate-800 bg-slate-900 p-4 shadow-sm">
+        <label htmlFor="disco" className="text-sm font-medium text-slate-300">
           Disco
         </label>
         <div className="mt-2 flex flex-col gap-3 sm:flex-row">
@@ -279,7 +279,7 @@ export function StoragePanel({
             value={disco}
             onChange={(event) => carregar(event.target.value)}
             disabled={carregando}
-            className="w-full cursor-pointer rounded-lg border border-slate-300 px-3 py-2 text-sm text-slate-900 outline-none ring-sky-500 transition focus:ring-2 sm:max-w-sm"
+            className="w-full cursor-pointer rounded-lg border border-slate-700 bg-slate-800 px-3 py-2 text-sm text-slate-100 outline-none ring-emerald-500 transition focus:ring-2 sm:max-w-sm"
           >
             {discos.map((item) => (
               <option key={item.name} value={item.name}>
@@ -291,7 +291,7 @@ export function StoragePanel({
             type="button"
             onClick={() => carregar(disco, conteudo?.path ?? "")}
             disabled={carregando}
-            className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-lg border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 transition-colors hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-60"
+            className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-lg border border-slate-700 bg-slate-800 px-4 py-2 text-sm font-medium text-slate-200 transition-colors hover:bg-slate-700 disabled:cursor-not-allowed disabled:opacity-60"
           >
             {carregando ? (
               <SpinnerIcon width={16} height={16} />
@@ -304,14 +304,14 @@ export function StoragePanel({
       </section>
 
       {conteudo ? (
-        <section className="flex flex-wrap items-center gap-2 text-sm text-slate-600">
+        <section className="flex flex-wrap items-center gap-2 text-sm text-slate-400">
           {breadcrumb.map((item, index) => (
             <div key={item.value} className="flex items-center gap-2">
               {index > 0 ? <span>/</span> : null}
               <button
                 type="button"
                 onClick={() => carregar(disco, item.value)}
-                className="cursor-pointer rounded px-1.5 py-0.5 font-medium text-sky-700 transition-colors hover:bg-sky-50"
+                className="cursor-pointer rounded px-1.5 py-0.5 font-medium text-emerald-400 transition-colors hover:bg-slate-800"
               >
                 {item.label}
               </button>
@@ -321,8 +321,8 @@ export function StoragePanel({
       ) : null}
 
       {conteudo ? (
-        <section className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
-          <label htmlFor="filtro-pasta" className="text-sm font-medium text-slate-700">
+        <section className="rounded-xl border border-slate-800 bg-slate-900 p-4 shadow-sm">
+          <label htmlFor="filtro-pasta" className="text-sm font-medium text-slate-300">
             Filtrar nesta pasta
           </label>
           <div className="mt-2 flex flex-col gap-3 sm:flex-row">
@@ -330,7 +330,7 @@ export function StoragePanel({
               <SearchIcon
                 width={18}
                 height={18}
-                className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
+                className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-slate-500"
               />
               <input
                 id="filtro-pasta"
@@ -338,21 +338,21 @@ export function StoragePanel({
                 value={filtro}
                 onChange={(event) => setFiltro(event.target.value)}
                 placeholder="Filtrar por nome (ex.: CPF/CNPJ)..."
-                className="w-full rounded-lg border border-slate-300 py-2 pl-10 pr-3 text-sm text-slate-900 outline-none ring-sky-500 transition focus:ring-2"
+                className="w-full rounded-lg border border-slate-700 bg-slate-800 py-2 pl-10 pr-3 text-sm text-slate-100 outline-none ring-emerald-500 transition placeholder:text-slate-500 focus:ring-2"
               />
             </div>
             {filtro ? (
               <button
                 type="button"
                 onClick={() => setFiltro("")}
-                className="inline-flex cursor-pointer items-center justify-center rounded-lg border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 transition-colors hover:bg-slate-50"
+                className="inline-flex cursor-pointer items-center justify-center rounded-lg border border-slate-700 bg-slate-800 px-4 py-2 text-sm font-medium text-slate-200 transition-colors hover:bg-slate-700"
               >
                 Limpar filtro
               </button>
             ) : null}
           </div>
           {filtroNormalizado ? (
-            <p className="mt-2 text-xs text-slate-500">
+            <p className="mt-2 text-xs text-slate-400">
               {entradas.length} de {todasEntradas.length} item(ns) correspondem ao filtro.
             </p>
           ) : null}
@@ -380,10 +380,10 @@ export function StoragePanel({
           ].map((card) => (
             <article
               key={card.label}
-              className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm"
+              className="rounded-xl border border-slate-800 bg-slate-900 p-4 shadow-sm"
             >
-              <p className="text-sm text-slate-500">{card.label}</p>
-              <p className="mt-2 text-2xl font-semibold text-slate-900">
+              <p className="text-sm text-slate-400">{card.label}</p>
+              <p className="mt-2 text-2xl font-semibold text-slate-50">
                 {typeof card.valor === "number"
                   ? card.valor.toLocaleString("pt-BR")
                   : card.valor}
@@ -393,31 +393,31 @@ export function StoragePanel({
         </section>
       ) : null}
 
-      <section className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
+      <section className="overflow-hidden rounded-xl border border-slate-800 bg-slate-900 shadow-sm">
         <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-slate-200 text-sm">
-            <thead className="sticky top-0 z-10 bg-slate-50">
+          <table className="min-w-full divide-y divide-slate-800 text-sm">
+            <thead className="sticky top-0 z-10 bg-slate-800/80">
               <tr>
                 {COLUNAS.map((coluna) => (
                   <th
                     key={coluna}
-                    className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500"
+                    className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-400"
                   >
                     {coluna}
                   </th>
                 ))}
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100">
+            <tbody className="divide-y divide-slate-800">
               {carregando ? (
                 <TableSkeleton columns={COLUNAS.length} />
               ) : entradas.length === 0 ? (
                 <tr>
                   <td
                     colSpan={COLUNAS.length}
-                    className="px-4 py-12 text-center text-slate-500"
+                    className="px-4 py-12 text-center text-slate-400"
                   >
-                    <p className="font-medium text-slate-700">
+                    <p className="font-medium text-slate-300">
                       {filtroNormalizado
                         ? "Nenhum item corresponde ao filtro."
                         : "Diretório vazio."}
@@ -435,21 +435,21 @@ export function StoragePanel({
                     key={`${item.type}-${item.path}`}
                     className={
                       ehDestaque(item)
-                        ? "bg-amber-50 ring-1 ring-inset ring-amber-200 hover:bg-amber-100"
-                        : "hover:bg-slate-50"
+                        ? "bg-amber-950/40 ring-1 ring-inset ring-amber-800/60 hover:bg-amber-950/60"
+                        : "hover:bg-slate-800/50"
                     }
                   >
-                    <td className="px-4 py-3 font-medium text-slate-900">
+                    <td className="px-4 py-3 font-medium text-slate-100">
                       {item.type === "directory" ? (
                         <button
                           type="button"
                           onClick={() => carregar(disco, item.path)}
-                          className="inline-flex cursor-pointer items-center gap-2 text-left text-sky-700 transition-colors hover:underline"
+                          className="inline-flex cursor-pointer items-center gap-2 text-left text-emerald-400 transition-colors hover:underline"
                         >
                           <FolderIcon
                             width={16}
                             height={16}
-                            className="shrink-0 text-amber-500"
+                            className="shrink-0 text-amber-400"
                           />
                           {item.name}
                         </button>
@@ -458,12 +458,12 @@ export function StoragePanel({
                           type="button"
                           onClick={() => baixarArquivo(item.path, item.name)}
                           disabled={baixando === item.path}
-                          className="inline-flex cursor-pointer items-center gap-2 text-left text-sky-700 transition-colors hover:underline disabled:cursor-not-allowed disabled:opacity-60"
+                          className="inline-flex cursor-pointer items-center gap-2 text-left text-emerald-400 transition-colors hover:underline disabled:cursor-not-allowed disabled:opacity-60"
                         >
                           <FileIcon
                             width={16}
                             height={16}
-                            className="shrink-0 text-slate-400"
+                            className="shrink-0 text-slate-500"
                           />
                           {baixando === item.path ? "Baixando..." : item.name}
                         </button>
@@ -473,17 +473,17 @@ export function StoragePanel({
                       <span
                         className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${
                           item.type === "directory"
-                            ? "bg-amber-50 text-amber-700"
-                            : "bg-slate-100 text-slate-600"
+                            ? "bg-amber-950/60 text-amber-300"
+                            : "bg-slate-800 text-slate-400"
                         }`}
                       >
                         {item.type === "directory" ? "Pasta" : "Arquivo"}
                       </span>
                     </td>
-                    <td className="px-4 py-3 text-slate-600">
+                    <td className="px-4 py-3 text-slate-400">
                       {formatarTamanho(item.size)}
                     </td>
-                    <td className="px-4 py-3 text-slate-600">
+                    <td className="px-4 py-3 text-slate-400">
                       {item.modified_at ?? "—"}
                     </td>
                     <td className="px-4 py-3 font-mono text-xs text-slate-500">
@@ -497,7 +497,7 @@ export function StoragePanel({
                             onClick={() => baixarArquivo(item.path, item.name)}
                             disabled={baixando === item.path}
                             aria-label={`Baixar ${item.name}`}
-                            className="inline-flex cursor-pointer items-center gap-1.5 rounded-lg border border-sky-200 bg-sky-50 px-3 py-1.5 text-xs font-medium text-sky-800 transition-colors hover:bg-sky-100 disabled:cursor-not-allowed disabled:opacity-60"
+                            className="inline-flex cursor-pointer items-center gap-1.5 rounded-lg border border-emerald-800/60 bg-emerald-950/50 px-3 py-1.5 text-xs font-medium text-emerald-300 transition-colors hover:bg-emerald-900/60 disabled:cursor-not-allowed disabled:opacity-60"
                           >
                             {baixando === item.path ? (
                               <SpinnerIcon width={14} height={14} />
@@ -512,7 +512,7 @@ export function StoragePanel({
                             onClick={() => renomearPasta(item.path, item.name)}
                             disabled={renomeando === item.path}
                             aria-label={`Renomear pasta ${item.name}`}
-                            className="inline-flex cursor-pointer items-center gap-1.5 rounded-lg border border-amber-200 bg-amber-50 px-3 py-1.5 text-xs font-medium text-amber-900 transition-colors hover:bg-amber-100 disabled:cursor-not-allowed disabled:opacity-60"
+                            className="inline-flex cursor-pointer items-center gap-1.5 rounded-lg border border-amber-800/60 bg-amber-950/50 px-3 py-1.5 text-xs font-medium text-amber-300 transition-colors hover:bg-amber-900/60 disabled:cursor-not-allowed disabled:opacity-60"
                           >
                             {renomeando === item.path ? (
                               <SpinnerIcon width={14} height={14} />

@@ -1,0 +1,28 @@
+disk: backup
+sicrediserrana/AG 07 BOM PRINCIPIO/* (fazendo)
+sicrediserrana/AG 12 FAGUNDES VARELA/*
+sicrediserrana/AG 34 AGRO BENTO/*
+sicrediserrana/AG 18 FLORES DA CUNHA - SAO GOTARDO/*
+sicrediserrana/AG 16 FLORES DA CUNHA/*
+sicrediserrana/AG 26 BARÃO/*
+sicrediserrana/AG 20 NOVA PADUA/*
+sicrediserrana0167-ag10bento/digitalizacao/ASSOCIADOS ATIVOS/*
+sicrediserrana0167-ag10bento/digitalizacao_old/ASSOCIADOS ATIVOS/*
+sicrediserrana0167-ag10bento/migracao/*
+sicrediserrana0167-ag16floresc/digitalizacao/*
+sicrediserrana0167-ag30CaBar/digitalizacao/*
+sicrediserrana0167-ag19Cpilar/digitalizacao/*
+sicrediserrana0167-ag39fc/digitalizacao/*
+serrana-27barmau/ASSOCIADOS ATIVOS/*
+sicrediserrana0167-ag19Cpilar/digitalizacao/ASSOCIADOS ATIVOS/*
+
+disk:user_files
+empresas/sicrediserrana0167-ag11NovaR/digitalizacao/ASSOCIADOS ATIVOS/*
+empresas/sicrediserrana0167-ag31Gari/digitalizacao/ASSOCIADOS ATIVOS/*
+empresas/sicrediserrana0167-ag09tupandi/digitalizacao/ASSOCIADOS ATIVOS/*
+empresas/ag06ivotramontina/digitalizacao/ASSOCIADOS ATIVOS/*
+empresas/sicrediserrana0167-ag27barmau/digitalizacao/ASSOCIADOS ATIVOS/*
+empresas/monte_belo/digitalizacao/ASSOCIADOS ATIVOS/*
+
+
+php artisan sicredi:sync-direto "user_files/empresas/sicredifronteiras-rangel26/digitalizacao/ASSOCIADOS ATIVOS" --base-url=http://56.125.175.153 --token="82|vnE0ifhBIkQOhzIcG1mfgv3VfWlATwCHt6n7AwdK2ea0caa4" --threads=20

@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { CpfCnpjKpis } from "@/components/cpf-cnpj-kpis";
+import { CpfCnpjPendentesDropdown } from "@/components/cpf-cnpj-pendentes-dropdown";
 import { Alert } from "@/components/ui/alert";
 import { TableSkeleton } from "@/components/ui/skeleton";
 import {
@@ -322,17 +323,17 @@ export function CpfCnpjPanel({
 
   return (
     <div className="mx-auto flex w-full max-w-7xl flex-col gap-6 px-4 py-8 sm:px-6 lg:px-8">
-      <header className="flex flex-col gap-4 border-b border-slate-200 pb-6 sm:flex-row sm:items-end sm:justify-between">
+      <header className="flex flex-col gap-4 border-b border-slate-800 pb-6 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <p className="text-sm font-medium uppercase tracking-wide text-blue-700">
+          <p className="text-sm font-medium uppercase tracking-wide text-emerald-400">
             Sicredi · Migração
           </p>
-          <h1 className="mt-1 text-3xl font-semibold text-slate-900">
+          <h1 className="mt-1 text-3xl font-semibold text-slate-50">
             CPF/CNPJ únicos
           </h1>
-          <p className="mt-2 max-w-2xl text-sm text-slate-600">
+          <p className="mt-2 max-w-2xl text-sm text-slate-400">
             Documentos distintos em{" "}
-            <code className="rounded bg-slate-100 px-1.5 py-0.5 text-xs">
+            <code className="rounded bg-slate-800 px-1.5 py-0.5 text-xs text-slate-300">
               sincronized_elements
             </code>
             . Clique no documento para abrir a pasta no Storage.
@@ -349,7 +350,7 @@ export function CpfCnpjPanel({
                 ? "Nenhum documento com pendências"
                 : `Sincronizar ${totalComPendencias} documento(s) com pendências`
             }
-            className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-lg border border-blue-700 bg-blue-700 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-blue-800 disabled:cursor-not-allowed disabled:opacity-50"
+            className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-lg border border-emerald-600 bg-emerald-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-emerald-500 disabled:cursor-not-allowed disabled:opacity-50"
           >
             {remigrandoTodos ? (
               <SpinnerIcon width={16} height={16} />
@@ -368,7 +369,7 @@ export function CpfCnpjPanel({
             type="button"
             onClick={() => exportarCsv(registros)}
             disabled={registros.length === 0 || sincronizacaoEmAndamento}
-            className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition-colors hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50"
+            className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-lg border border-slate-700 bg-slate-800 px-4 py-2 text-sm font-medium text-slate-200 transition-colors hover:bg-slate-700 disabled:cursor-not-allowed disabled:opacity-50"
           >
             <DownloadIcon width={16} height={16} />
             Exportar CSV
@@ -377,22 +378,22 @@ export function CpfCnpjPanel({
       </header>
 
       {progressoLote ? (
-        <div className="rounded-lg border border-blue-200 bg-blue-50 px-4 py-3">
-          <div className="flex items-center justify-between text-sm font-medium text-blue-900">
+        <div className="rounded-lg border border-emerald-800/60 bg-emerald-950/40 px-4 py-3">
+          <div className="flex items-center justify-between text-sm font-medium text-emerald-200">
             <span>Resincronizando em lote...</span>
             <span>
               {progressoLote.atual} / {progressoLote.total}
             </span>
           </div>
           <div
-            className="mt-2 h-2 w-full overflow-hidden rounded-full bg-blue-100"
+            className="mt-2 h-2 w-full overflow-hidden rounded-full bg-slate-800"
             role="progressbar"
             aria-valuenow={progressoPercent}
             aria-valuemin={0}
             aria-valuemax={100}
           >
             <div
-              className="h-full rounded-full bg-blue-600 transition-all duration-300"
+              className="h-full rounded-full bg-emerald-500 transition-all duration-300"
               style={{ width: `${progressoPercent}%` }}
             />
           </div>
@@ -400,14 +401,14 @@ export function CpfCnpjPanel({
       ) : null}
 
       {acompanhando ? (
-        <div className="flex flex-col gap-3 rounded-lg border border-blue-200 bg-blue-50 px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
-          <div className="flex items-center gap-3 text-sm text-blue-900">
-            <SpinnerIcon width={18} height={18} className="text-blue-600" />
+        <div className="flex flex-col gap-3 rounded-lg border border-emerald-800/60 bg-emerald-950/40 px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex items-center gap-3 text-sm text-emerald-200">
+            <SpinnerIcon width={18} height={18} className="text-emerald-400" />
             <div>
               <p className="font-medium">
                 Acompanhando o andamento (atualiza a cada 5s)
               </p>
-              <p className="text-xs text-blue-700">
+              <p className="text-xs text-emerald-400">
                 {totalComPendencias > 0
                   ? `${totalComPendencias} documento(s) ainda com pendências · ${totaisGerais.pendentes.toLocaleString("pt-BR")} arquivo(s) pendente(s)`
                   : "Processando..."}
@@ -421,7 +422,7 @@ export function CpfCnpjPanel({
             <button
               type="button"
               onClick={recarregarRegistros}
-              className="inline-flex cursor-pointer items-center gap-1.5 rounded-lg border border-blue-300 bg-white px-3 py-1.5 text-xs font-medium text-blue-800 transition-colors hover:bg-blue-100"
+              className="inline-flex cursor-pointer items-center gap-1.5 rounded-lg border border-emerald-700 bg-slate-800 px-3 py-1.5 text-xs font-medium text-emerald-300 transition-colors hover:bg-slate-700"
             >
               <RefreshIcon width={14} height={14} />
               Atualizar agora
@@ -429,7 +430,7 @@ export function CpfCnpjPanel({
             <button
               type="button"
               onClick={() => setAcompanhando(false)}
-              className="inline-flex cursor-pointer items-center rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-xs font-medium text-slate-700 transition-colors hover:bg-slate-50"
+              className="inline-flex cursor-pointer items-center rounded-lg border border-slate-700 bg-slate-800 px-3 py-1.5 text-xs font-medium text-slate-300 transition-colors hover:bg-slate-700"
             >
               Parar acompanhamento
             </button>
@@ -444,15 +445,15 @@ export function CpfCnpjPanel({
         concluidos={totaisGerais.concluidos}
       />
 
-      <section className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
-        <label htmlFor="busca" className="text-sm font-medium text-slate-700">
+      <section className="rounded-xl border border-slate-800 bg-slate-900 p-4 shadow-sm">
+        <label htmlFor="busca" className="text-sm font-medium text-slate-300">
           Buscar CPF/CNPJ
         </label>
         <div className="relative mt-2">
           <SearchIcon
             width={18}
             height={18}
-            className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
+            className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-slate-500"
           />
           <input
             id="busca"
@@ -461,13 +462,13 @@ export function CpfCnpjPanel({
             onChange={(event) => setBusca(event.target.value)}
             placeholder="Digite o documento — a busca é automática..."
             aria-label="Buscar por CPF ou CNPJ"
-            className="w-full rounded-lg border border-slate-300 py-2 pl-10 pr-10 text-sm text-slate-900 outline-none ring-blue-500 transition focus:ring-2"
+            className="w-full rounded-lg border border-slate-700 bg-slate-800 py-2 pl-10 pr-10 text-sm text-slate-100 outline-none ring-emerald-500 transition placeholder:text-slate-500 focus:ring-2"
           />
           {carregando ? (
             <SpinnerIcon
               width={18}
               height={18}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-blue-600"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-emerald-400"
             />
           ) : null}
         </div>
@@ -485,31 +486,31 @@ export function CpfCnpjPanel({
         </Alert>
       ) : null}
 
-      <section className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
+      <section className="overflow-hidden rounded-xl border border-slate-800 bg-slate-900 shadow-sm">
         <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-slate-200 text-sm">
-            <thead className="sticky top-0 z-10 bg-slate-50">
+          <table className="min-w-full divide-y divide-slate-800 text-sm">
+            <thead className="sticky top-0 z-10 bg-slate-800/80">
               <tr>
                 {COLUNAS.map((coluna) => (
                   <th
                     key={coluna}
-                    className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500"
+                    className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-400"
                   >
                     {coluna}
                   </th>
                 ))}
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100">
+            <tbody className="divide-y divide-slate-800">
               {carregando && registros.length === 0 ? (
                 <TableSkeleton columns={COLUNAS.length} />
               ) : registrosExibicao.length === 0 ? (
                 <tr>
                   <td
                     colSpan={COLUNAS.length}
-                    className="px-4 py-12 text-center text-slate-500"
+                    className="px-4 py-12 text-center text-slate-400"
                   >
-                    <p className="font-medium text-slate-700">
+                    <p className="font-medium text-slate-300">
                       Nenhum CPF/CNPJ encontrado.
                     </p>
                     <p className="mt-1 text-sm">
@@ -529,61 +530,67 @@ export function CpfCnpjPanel({
                       key={item.cpf_cnpj}
                       className={
                         concluido
-                          ? "bg-emerald-50/60 hover:bg-emerald-100/70"
-                          : "hover:bg-slate-50"
+                          ? "bg-emerald-950/30 hover:bg-emerald-950/50"
+                          : "hover:bg-slate-800/50"
                       }
                     >
                       <td
-                        className={`px-4 py-3 font-mono ${concluido ? "text-emerald-900" : "text-slate-900"}`}
+                        className={`px-4 py-3 font-mono ${concluido ? "text-emerald-300" : "text-slate-100"}`}
                       >
                         <a
                           href={`/storage?cpf=${encodeURIComponent(item.cpf_cnpj)}`}
                           title="Abrir a pasta no explorador de Storage para renomear"
-                          className="group inline-flex cursor-pointer flex-col rounded px-1 py-0.5 transition-colors hover:bg-blue-50"
+                          className="group inline-flex cursor-pointer flex-col rounded px-1 py-0.5 transition-colors hover:bg-slate-800"
                         >
-                          <span className="font-medium text-blue-700 group-hover:underline">
+                          <span className="font-medium text-emerald-400 group-hover:underline">
                             {formatarDocumento(item.cpf_cnpj)}
                           </span>
                           <span
-                            className={`text-xs ${concluido ? "text-emerald-700" : "text-slate-500"}`}
+                            className={`text-xs ${concluido ? "text-emerald-500" : "text-slate-500"}`}
                           >
                             {item.cpf_cnpj}
                           </span>
                         </a>
                       </td>
                       <td
-                        className={`px-4 py-3 ${concluido ? "text-emerald-800" : "text-slate-700"}`}
+                        className={`px-4 py-3 ${concluido ? "text-emerald-300" : "text-slate-300"}`}
                       >
                         {item.total_registros.toLocaleString("pt-BR")}
                       </td>
                       <td
-                        className={`px-4 py-3 ${concluido ? "text-emerald-800" : "text-slate-700"}`}
+                        className={`px-4 py-3 ${concluido ? "text-emerald-300" : "text-slate-300"}`}
                       >
                         {item.arquivos.toLocaleString("pt-BR")}
                       </td>
                       <td
-                        className={`px-4 py-3 ${concluido ? "text-emerald-800" : "text-slate-700"}`}
+                        className={`px-4 py-3 ${concluido ? "text-emerald-300" : "text-slate-300"}`}
                       >
                         {item.pastas.toLocaleString("pt-BR")}
                       </td>
-                      <td className="px-4 py-3 font-medium text-emerald-700">
+                      <td className="px-4 py-3 font-medium text-emerald-400">
                         {item.migrados.toLocaleString("pt-BR")}
                       </td>
                       <td
-                        className={`px-4 py-3 font-medium ${concluido ? "text-emerald-600" : "text-amber-700"}`}
+                        className={`px-4 py-3 font-medium ${concluido ? "text-emerald-400" : "text-amber-400"}`}
                       >
                         {item.pendentes.toLocaleString("pt-BR")}
                       </td>
-                      <td className="px-4 py-3">
+                      <td className="px-4 py-3 align-top">
                         {concluido ? (
-                          <span className="inline-flex items-center gap-1 rounded-full bg-emerald-100 px-2.5 py-1 text-xs font-medium text-emerald-800">
+                          <span className="inline-flex items-center gap-1 rounded-full bg-emerald-950/60 px-2.5 py-1 text-xs font-medium text-emerald-300">
                             <CheckIcon width={14} height={14} />
                             Concluído
                           </span>
                         ) : (
-                          <span className="inline-flex items-center gap-1 rounded-full bg-amber-100 px-2.5 py-1 text-xs font-medium text-amber-800">
-                            {item.pendentes.toLocaleString("pt-BR")} pendente(s)
-                          </span>
+                          <div>
+                            <span className="inline-flex items-center gap-1 rounded-full bg-amber-950/60 px-2.5 py-1 text-xs font-medium text-amber-300">
+                              {item.pendentes.toLocaleString("pt-BR")} pendente(s)
+                            </span>
+                            <CpfCnpjPendentesDropdown
+                              cpfCnpj={item.cpf_cnpj}
+                              totalPendentes={item.pendentes}
+                            />
+                          </div>
                         )}
                       </td>
                       <td className="px-4 py-3">
@@ -596,7 +603,7 @@ export function CpfCnpjPanel({
                             sincronizacaoEmAndamento
                           }
                           aria-label={`Resincronizar ${formatarDocumento(item.cpf_cnpj)} com o GED`}
-                          className="inline-flex cursor-pointer items-center gap-1.5 rounded-lg border border-emerald-300 bg-emerald-50 px-3 py-1.5 text-xs font-medium text-emerald-800 transition-colors hover:bg-emerald-100 disabled:cursor-not-allowed disabled:opacity-50"
+                          className="inline-flex cursor-pointer items-center gap-1.5 rounded-lg border border-emerald-700 bg-emerald-950/50 px-3 py-1.5 text-xs font-medium text-emerald-300 transition-colors hover:bg-emerald-900/60 disabled:cursor-not-allowed disabled:opacity-50"
                         >
                           {processando ? (
                             <SpinnerIcon width={14} height={14} />
