@@ -13,6 +13,14 @@ import {
   SearchIcon,
   SpinnerIcon,
 } from "@/components/ui/icons";
+import {
+  CPF_CNPJ_VERIFICADOS_COLUNA,
+  CpfCnpjVerificadoCell,
+  classeLinhaCpfCnpj,
+  classeTextoCpfCnpj,
+  classeTextoSecundarioCpfCnpj,
+  useCpfCnpjVerificados,
+} from "@/features/cpf-cnpj-verificados";
 import type { CpfCnpjResumo } from "@/lib/cpf-cnpj";
 
 type Props = {
@@ -21,7 +29,7 @@ type Props = {
   erroInicial?: string;
 };
 
-const COLUNAS = [
+const COLUNAS_BASE = [
   "CPF/CNPJ",
   "Total",
   "Arquivos",
@@ -30,7 +38,7 @@ const COLUNAS = [
   "Pendentes",
   "Status",
   "Ações",
-];
+] as const;
 
 function formatarDocumento(valor: string): string {
   const digitos = valor.replace(/\D/g, "");
@@ -108,14 +116,34 @@ export function CpfCnpjPanel({
     buscaRef.current = busca;
   }, [busca]);
 
+  // FEATURE: cpf-cnpj-verificados — remova este bloco ao desinstalar a feature
+  const {
+    enabled: verificadosAtivos,
+    registrosComVerificado,
+    alternando: alternandoVerificado,
+    alternarVerificado,
+    erroVerificados,
+    limparErroVerificados,
+  } = useCpfCnpjVerificados(registros);
+
+  const colunas = useMemo(() => {
+    if (!verificadosAtivos) {
+      return [...COLUNAS_BASE];
+    }
+
+    const copia = [...COLUNAS_BASE];
+    copia.splice(6, 0, CPF_CNPJ_VERIFICADOS_COLUNA);
+    return copia;
+  }, [verificadosAtivos]);
+
   const registrosExibicao = useMemo(
     () =>
-      [...registros].sort((left, right) => {
+      [...registrosComVerificado].sort((left, right) => {
         if (left.pendentes === 0 && right.pendentes > 0) return 1;
         if (left.pendentes > 0 && right.pendentes === 0) return -1;
         return left.cpf_cnpj.localeCompare(right.cpf_cnpj);
       }),
-    [registros],
+    [registrosComVerificado],
   );
 
   const totaisGerais = useMemo(
@@ -480,6 +508,12 @@ export function CpfCnpjPanel({
         </Alert>
       ) : null}
 
+      {erroVerificados ? (
+        <Alert variant="error" onDismiss={limparErroVerificados}>
+          Verificados: {erroVerificados}
+        </Alert>
+      ) : null}
+
       {sucesso ? (
         <Alert variant="success" onDismiss={() => setSucesso("")}>
           {sucesso}
@@ -491,7 +525,7 @@ export function CpfCnpjPanel({
           <table className="min-w-full divide-y divide-slate-800 text-sm">
             <thead className="sticky top-0 z-10 bg-slate-800/80">
               <tr>
-                {COLUNAS.map((coluna) => (
+                {colunas.map((coluna) => (
                   <th
                     key={coluna}
                     className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-400"
@@ -503,11 +537,11 @@ export function CpfCnpjPanel({
             </thead>
             <tbody className="divide-y divide-slate-800">
               {carregando && registros.length === 0 ? (
-                <TableSkeleton columns={COLUNAS.length} />
+                <TableSkeleton columns={colunas.length} />
               ) : registrosExibicao.length === 0 ? (
                 <tr>
                   <td
-                    colSpan={COLUNAS.length}
+                    colSpan={colunas.length}
                     className="px-4 py-12 text-center text-slate-400"
                   >
                     <p className="font-medium text-slate-300">
@@ -524,18 +558,15 @@ export function CpfCnpjPanel({
                 registrosExibicao.map((item) => {
                   const concluido = item.pendentes === 0;
                   const processando = remigrando === item.cpf_cnpj;
+                  const verificado = verificadosAtivos && item.verificado;
 
                   return (
                     <tr
                       key={item.cpf_cnpj}
-                      className={
-                        concluido
-                          ? "bg-emerald-950/30 hover:bg-emerald-950/50"
-                          : "hover:bg-slate-800/50"
-                      }
+                      className={classeLinhaCpfCnpj(concluido, verificado)}
                     >
                       <td
-                        className={`px-4 py-3 font-mono ${concluido ? "text-emerald-300" : "text-slate-100"}`}
+                        className={`px-4 py-3 font-mono ${classeTextoCpfCnpj(concluido, verificado, "text-slate-100")}`}
                       >
                         <a
                           href={`/storage?cpf=${encodeURIComponent(item.cpf_cnpj)}`}
@@ -546,24 +577,24 @@ export function CpfCnpjPanel({
                             {formatarDocumento(item.cpf_cnpj)}
                           </span>
                           <span
-                            className={`text-xs ${concluido ? "text-emerald-500" : "text-slate-500"}`}
+                            className={`text-xs ${classeTextoSecundarioCpfCnpj(concluido, verificado)}`}
                           >
                             {item.cpf_cnpj}
                           </span>
                         </a>
                       </td>
                       <td
-                        className={`px-4 py-3 ${concluido ? "text-emerald-300" : "text-slate-300"}`}
+                        className={`px-4 py-3 ${classeTextoCpfCnpj(concluido, verificado, "text-slate-300")}`}
                       >
                         {item.total_registros.toLocaleString("pt-BR")}
                       </td>
                       <td
-                        className={`px-4 py-3 ${concluido ? "text-emerald-300" : "text-slate-300"}`}
+                        className={`px-4 py-3 ${classeTextoCpfCnpj(concluido, verificado, "text-slate-300")}`}
                       >
                         {item.arquivos.toLocaleString("pt-BR")}
                       </td>
                       <td
-                        className={`px-4 py-3 ${concluido ? "text-emerald-300" : "text-slate-300"}`}
+                        className={`px-4 py-3 ${classeTextoCpfCnpj(concluido, verificado, "text-slate-300")}`}
                       >
                         {item.pastas.toLocaleString("pt-BR")}
                       </td>
@@ -571,16 +602,37 @@ export function CpfCnpjPanel({
                         {item.migrados.toLocaleString("pt-BR")}
                       </td>
                       <td
-                        className={`px-4 py-3 font-medium ${concluido ? "text-emerald-400" : "text-amber-400"}`}
+                        className={`px-4 py-3 font-medium ${verificado ? "text-orange-400" : concluido ? "text-emerald-400" : "text-amber-400"}`}
                       >
                         {item.pendentes.toLocaleString("pt-BR")}
                       </td>
+                      {verificadosAtivos ? (
+                        <td className="px-4 py-3">
+                          <CpfCnpjVerificadoCell
+                            cpfCnpj={item.cpf_cnpj}
+                            pendentes={item.pendentes}
+                            verificado={item.verificado}
+                            alternando={alternandoVerificado === item.cpf_cnpj}
+                            onToggle={alternarVerificado}
+                          />
+                        </td>
+                      ) : null}
                       <td className="px-4 py-3 align-top">
                         {concluido ? (
                           <span className="inline-flex items-center gap-1 rounded-full bg-emerald-950/60 px-2.5 py-1 text-xs font-medium text-emerald-300">
                             <CheckIcon width={14} height={14} />
                             Concluído
                           </span>
+                        ) : verificado ? (
+                          <div>
+                            <span className="inline-flex items-center gap-1 rounded-full bg-orange-950/60 px-2.5 py-1 text-xs font-medium text-orange-300">
+                              Verificado
+                            </span>
+                            <CpfCnpjPendentesDropdown
+                              cpfCnpj={item.cpf_cnpj}
+                              totalPendentes={item.pendentes}
+                            />
+                          </div>
                         ) : (
                           <div>
                             <span className="inline-flex items-center gap-1 rounded-full bg-amber-950/60 px-2.5 py-1 text-xs font-medium text-amber-300">
